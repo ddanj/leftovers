@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import {
   Body,
   Button,
   Container,
   Content,
   Header,
-  Left,
-  Right,
   Text,
   Title,
-} from "native-base";
-import * as ImagePicker from "expo-image-picker";
+} from 'native-base';
+import * as ImagePicker from 'expo-image-picker';
 
 function Home(props) {
   const { history } = props;
@@ -20,10 +18,10 @@ function Home(props) {
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== "web") {
+      if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
         }
       }
     })();
@@ -45,12 +43,10 @@ function Home(props) {
 
   return (
     <Container>
-      <Header>
-        <Left />
+      <Header noLeft>
         <Body>
           <Title>Leftovers</Title>
         </Body>
-        <Right />
       </Header>
       <Container style={styles.container}>
         <Button style={styles.cameraButton} onPress={takePicture}>

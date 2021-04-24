@@ -33,9 +33,8 @@ export default class App extends Component {
       <NativeRouter>
         <Container>
           <Switch>
-            {/* <Route exact path="/" component={Home} /> */}
-            {/* <Route exact path="/ingredient-list" component={IngredientList} /> */}
-            <Route exact path="/" component={IngredientList} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/ingredient-list" component={IngredientList} />
           </Switch>
         </Container>
       </NativeRouter>

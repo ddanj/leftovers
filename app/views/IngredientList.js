@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import {
-  Badge,
+  Body,
   Container,
   Content,
   Header,
@@ -9,6 +9,7 @@ import {
   List,
   ListItem,
   Text,
+  Title,
 } from 'native-base';
 
 function IngredientList(props) {
@@ -27,7 +28,11 @@ function IngredientList(props) {
 
   return (
     <Container>
-      <Header />
+      <Header noLeft>
+        <Body>
+          <Title>Leftovers - My Ingredients</Title>
+        </Body>
+      </Header>
       <Content>
         <List>
           {/* Render detected ingredients */}
