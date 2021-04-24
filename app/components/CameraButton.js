@@ -36,7 +36,7 @@ function CameraButton(props) {
       );
 
       history.push({
-        pathname: "/recipes",
+        pathname: "/ingredients-list",
         state: { image: { uri: result.uri, base64: manipulatedResult.base64 } },
       });
     }
