@@ -62,7 +62,10 @@ function IngredientList(props) {
     ingredientInput = value === '' ? ingredientInput : value;
   }
   function addIngredient() {
-    if (enteredIngredients.indexOf(ingredientInput) === -1) {
+    if (
+      enteredIngredients.indexOf(ingredientInput) === -1 &&
+      detectedIngredients.indexOf(ingredientInput) === -1
+    ) {
       setEnteredIngredients(enteredIngredients.concat(ingredientInput));
     }
   }
