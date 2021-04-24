@@ -1,6 +1,8 @@
 import React from "react";
+import { StyleSheet } from "react-native";
+import { Icon, ListItem, Text } from "native-base";
 
-function IngredientsListItem(props) {
+function IngredientListItem(props) {
   const { history, ingredientsArray, setter } = props;
 
   return ingredientsArray.map((ingredient, i) => {
@@ -33,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IngredientsListItem;
+export default IngredientListItem;
