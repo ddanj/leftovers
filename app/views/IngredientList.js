@@ -14,17 +14,47 @@ import {
 
 function IngredientList(props) {
   const { history } = props;
+  const [detectedIngredients, setDetectedIngredients] = useState([]);
+  const [enteredIngredients, setEnteredIngredients] = useState([]);
+  useEffect(() => {
+    (async () => {
+      setDetectedIngredients([
+        'Ingredient #1',
+        'Ingredient #2',
+        'Ingredient #3',
+      ]);
+      setEnteredIngredients([
+        'EIngredient #1',
+        'EIngredient #2',
+        'EIngredient #3',
+      ]);
+    })();
+  }, []);
 
-  const detectedIngredients = [
-    'Ingredient #1',
-    'Ingredient #2',
-    'Ingredient #1',
-  ];
-  const enteredIngredients = [
-    'Ingredient #1',
-    'Ingredient #2',
-    'Ingredient #1',
-  ];
+  function ingredientsUI(arr, setFunction) {
+    return arr.map((ingredient, i) => {
+      return (
+        <ListItem key={i}>
+          <Icon
+            type="Entypo"
+            name="circle-with-minus"
+            style={styles.removeIcon}
+            onPress={() => {
+              setFunction(
+                arr.filter((value, j) => {
+                  return j != i;
+                })
+              );
+            }}
+          />
+          <Text>{ingredient}</Text>
+        </ListItem>
+      );
+    });
+  }
+
+  const detected = ingredientsUI(detectedIngredients, setDetectedIngredients);
+  const entered = ingredientsUI(enteredIngredients, setEnteredIngredients);
 
   return (
     <Container>
@@ -39,35 +69,13 @@ function IngredientList(props) {
           <ListItem itemHeader first>
             <Text>Detected Ingredients</Text>
           </ListItem>
-          {detectedIngredients.map((ingredient, i) => {
-            return (
-              <ListItem key={i}>
-                <Icon
-                  type="Entypo"
-                  name="circle-with-minus"
-                  style={styles.removeIcon}
-                />
-                <Text>{ingredient}</Text>
-              </ListItem>
-            );
-          })}
+          {detected}
 
           {/* Render user entered ingredients */}
           <ListItem itemHeader first>
             <Text>User Entered Ingredients</Text>
           </ListItem>
-          {enteredIngredients.map((ingredient, i) => {
-            return (
-              <ListItem key={i}>
-                <Icon
-                  type="Entypo"
-                  name="circle-with-minus"
-                  style={styles.removeIcon}
-                />
-                <Text>{ingredient}</Text>
-              </ListItem>
-            );
-          })}
+          {entered}
         </List>
       </Content>
     </Container>
