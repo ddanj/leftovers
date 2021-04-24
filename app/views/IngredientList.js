@@ -4,8 +4,11 @@ import {
   Body,
   Container,
   Content,
+  Form,
   Header,
   Icon,
+  Input,
+  Item,
   List,
   ListItem,
   Text,
@@ -16,6 +19,7 @@ function IngredientList(props) {
   const { history } = props;
   const [detectedIngredients, setDetectedIngredients] = useState([]);
   const [enteredIngredients, setEnteredIngredients] = useState([]);
+
   useEffect(() => {
     (async () => {
       setDetectedIngredients([
@@ -38,7 +42,7 @@ function IngredientList(props) {
           <Icon
             type="Entypo"
             name="circle-with-minus"
-            style={styles.removeIcon}
+            style={[styles.editIngredientIcon, styles.removeIcon]}
             onPress={() => {
               setFunction(
                 arr.filter((value, j) => {
@@ -51,6 +55,16 @@ function IngredientList(props) {
         </ListItem>
       );
     });
+  }
+
+  var ingredientInput;
+  function handleIngredientInput(value) {
+    ingredientInput = value === '' ? ingredientInput : value;
+  }
+  function addIngredient() {
+    if (enteredIngredients.indexOf(ingredientInput) === -1) {
+      setEnteredIngredients(enteredIngredients.concat(ingredientInput));
+    }
   }
 
   const detected = ingredientsUI(detectedIngredients, setDetectedIngredients);
@@ -66,16 +80,32 @@ function IngredientList(props) {
       <Content>
         <List>
           {/* Render detected ingredients */}
-          <ListItem itemHeader first>
+          <ListItem itemHeader first style={styles.itemHeader}>
             <Text>Detected Ingredients</Text>
           </ListItem>
           {detected}
 
           {/* Render user entered ingredients */}
-          <ListItem itemHeader first>
+          <ListItem itemHeader first style={styles.itemHeader}>
             <Text>User Entered Ingredients</Text>
           </ListItem>
           {entered}
+          <Form>
+            <Item>
+              <Input
+                placeholder="Add Ingredient"
+                onChangeText={(val) => handleIngredientInput(val)}
+              />
+              <Icon
+                type="Entypo"
+                name="circle-with-plus"
+                style={[styles.editIngredientIcon, styles.addIcon]}
+                onPress={() => {
+                  addIngredient();
+                }}
+              />
+            </Item>
+          </Form>
         </List>
       </Content>
     </Container>
@@ -83,11 +113,20 @@ function IngredientList(props) {
 }
 
 const styles = StyleSheet.create({
-  removeIcon: {
+  addIcon: {
+    color: 'green',
+  },
+  editIngredientIcon: {
     marginRight: 10,
     fontSize: 20,
-    color: 'red',
     lineHeight: 20,
+  },
+  itemHeader: {
+    marginTop: 10,
+    paddingBottom: 0,
+  },
+  removeIcon: {
+    color: 'red',
   },
 });
 
