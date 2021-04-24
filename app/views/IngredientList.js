@@ -6,62 +6,35 @@ import {
   Container,
   Content,
   Form,
-  Header,
   Icon,
   Input,
   Item,
   List,
   ListItem,
   Text,
-  Title,
 } from 'native-base';
+
+import { ButtonHeader, IngredientListItem } from '../components/Components';
 
 function IngredientList(props) {
   const { history } = props;
+
   const [detectedIngredients, setDetectedIngredients] = useState([]);
   const [enteredIngredients, setEnteredIngredients] = useState([]);
 
   useEffect(() => {
     (async () => {
-      setDetectedIngredients([
-        'Ingredient #1',
-        'Ingredient #2',
-        'Ingredient #3',
-      ]);
-      setEnteredIngredients([
-        'EIngredient #1',
-        'EIngredient #2',
-        'EIngredient #3',
-      ]);
+      setDetectedIngredients(['apple', 'pear', 'melon']);
+      setEnteredIngredients(['olive']);
     })();
   }, []);
 
-  function ingredientsUI(arr, setFunction) {
-    return arr.map((ingredient, i) => {
-      return (
-        <ListItem key={i}>
-          <Icon
-            type="Entypo"
-            name="circle-with-minus"
-            style={[styles.editIngredientIcon, styles.removeIcon]}
-            onPress={() => {
-              setFunction(
-                arr.filter((value, j) => {
-                  return j != i;
-                })
-              );
-            }}
-          />
-          <Text>{ingredient}</Text>
-        </ListItem>
-      );
-    });
-  }
+  let ingredientInput;
 
-  var ingredientInput;
   function handleIngredientInput(value) {
     ingredientInput = value === '' ? ingredientInput : value;
   }
+
   function addIngredient() {
     if (
       enteredIngredients.indexOf(ingredientInput) === -1 &&
@@ -71,39 +44,39 @@ function IngredientList(props) {
     }
   }
 
-  const detected = ingredientsUI(detectedIngredients, setDetectedIngredients);
-  const entered = ingredientsUI(enteredIngredients, setEnteredIngredients);
-
   return (
     <Container>
-      <Header noLeft>
-        <Body>
-          <Title>Leftovers - My Ingredients</Title>
-        </Body>
-      </Header>
+      <ButtonHeader title="Ingredients" history={history}></ButtonHeader>
       <Content>
         <List>
           {/* Render detected ingredients */}
           <ListItem itemHeader first style={styles.itemHeader}>
-            <Text>Detected Ingredients</Text>
+            <Text>Ingredients Detected</Text>
           </ListItem>
-          {detected}
-
+          <IngredientListItem
+            history={history}
+            ingredientsArray={detectedIngredients}
+            setter={setDetectedIngredients}
+          />
           {/* Render user entered ingredients */}
           <ListItem itemHeader first style={styles.itemHeader}>
-            <Text>User Entered Ingredients</Text>
+            <Text>Ingredients Added</Text>
           </ListItem>
-          {entered}
+          <IngredientListItem
+            history={history}
+            ingredientsArray={enteredIngredients}
+            setter={setEnteredIngredients}
+          />
           <Form>
             <Item>
               <Input
-                placeholder="Add Ingredient"
+                placeholder="Ingredient to add..."
                 onChangeText={(val) => handleIngredientInput(val)}
               />
               <Icon
                 type="Entypo"
                 name="circle-with-plus"
-                style={[styles.editIngredientIcon, styles.addIcon]}
+                style={styles.addIcon}
                 onPress={() => {
                   addIngredient();
                 }}
@@ -134,13 +107,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     fontSize: 20,
     lineHeight: 20,
+    color: 'green',
   },
   itemHeader: {
     marginTop: 10,
     paddingBottom: 0,
-  },
-  removeIcon: {
-    color: 'red',
   },
 });
 
