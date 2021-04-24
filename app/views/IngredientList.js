@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Body,
+  Button,
   Container,
   Content,
   Form,
@@ -110,6 +111,12 @@ function IngredientList(props) {
             </Item>
           </Form>
         </List>
+
+        <View style={styles.contentView}>
+          <Button>
+            <Text>Submit</Text>
+          </Button>
+        </View>
       </Content>
     </Container>
   );
@@ -118,6 +125,10 @@ function IngredientList(props) {
 const styles = StyleSheet.create({
   addIcon: {
     color: 'green',
+  },
+  contentView: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   editIngredientIcon: {
     marginRight: 10,
