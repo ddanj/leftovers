@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import {
   Button,
   Container,
@@ -13,11 +13,12 @@ import {
   ListItem,
   Right,
   Text,
-} from "native-base";
-import * as Clarifai from "clarifai";
-import { CLARIFAI_API_KEY } from "@env";
+} from 'native-base';
+import * as Clarifai from 'clarifai';
 
-import { ButtonHeader, IngredientListItem } from "../components/Components";
+// My imports
+import { CLARIFAI_API_KEY } from '@env';
+import { ButtonHeader, IngredientListItem } from '../components/Components';
 
 function IngredientList(props) {
   const { history } = props;
@@ -47,7 +48,7 @@ function IngredientList(props) {
           newPredictions.outputs[0].data.concepts.map((a) => a.name)
         );
       } catch (error) {
-        console.log("Exception Error: ", error);
+        console.log('Exception Error: ', error);
       }
     })();
   }, []);
@@ -55,13 +56,13 @@ function IngredientList(props) {
   let ingredientInput;
 
   function setIngredientInput(value) {
-    ingredientInput = value === "" ? ingredientInput : value;
+    ingredientInput = value ? value : ingredientInput;
   }
 
   function addIngredient() {
     if (
-      enteredIngredients.includes(ingredientInput) &&
-      detectedIngredients.includes(ingredientInput)
+      !enteredIngredients.includes(ingredientInput) &&
+      !detectedIngredients.includes(ingredientInput)
     ) {
       setEnteredIngredients(enteredIngredients.concat(ingredientInput));
     }
@@ -76,7 +77,7 @@ function IngredientList(props) {
           <ListItem itemDivider first style={styles.itemDivider}>
             <Text>Ingredients Detected</Text>
           </ListItem>
-          {detectedIngredients ? (
+          {detectedIngredients.length > 0 ? (
             <IngredientListItem
               history={history}
               ingredientsArray={detectedIngredients}
@@ -135,12 +136,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addIcon: {
     fontSize: 28,
-    color: "green",
+    color: 'green',
     lineHeight: 28,
     marginRight: 8,
   },

@@ -14,4 +14,6 @@ web-build/
 
 # VSCode
 .vscode/
+
+# env variables
 .env

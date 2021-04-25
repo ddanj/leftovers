@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Body,
-  Button,
   Container,
   Content,
   Header,
   Icon,
   Text,
-  H3,
   Title,
   View,
 } from 'native-base';
