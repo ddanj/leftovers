@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Container } from "native-base";
-import { NativeRouter, Switch, Route } from "react-router-native";
-import { default as AppLoading } from "expo-app-loading";
-import * as Font from "expo-font";
-import { Ionicons } from "@expo/vector-icons";
+import React, { Component } from 'react';
+import { Container } from 'native-base';
+import { NativeRouter, Switch, Route } from 'react-router-native';
+import { default as AppLoading } from 'expo-app-loading';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 // My imports
-import { Home, IngredientList, RecipesList } from "./app/views/Views";
+import { Home, IngredientList, RecipesList } from './app/views/Views';
 
 export default class App extends Component {
   constructor(props) {
@@ -18,8 +18,8 @@ export default class App extends Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
     this.setState({ isReady: true });

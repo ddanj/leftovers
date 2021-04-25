@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 
 import {
   Button,
@@ -15,17 +15,17 @@ import {
   Right,
   Text,
   View,
-} from "native-base";
-import * as Clarifai from "clarifai";
+} from 'native-base';
+import * as Clarifai from 'clarifai';
 
 // My imports
-import { CLARIFAI_API_KEY } from "@env";
-import { ButtonHeader, IngredientListItem } from "../components/Components";
+import { CLARIFAI_API_KEY } from '@env';
+import { ButtonHeader, IngredientListItem } from '../components/Components';
 
 function IngredientList(props) {
   const { history } = props;
-  const imageUri = history.location.state.image.uri;
-  const imageBase64 = history.location.state.image.base64;
+  const imageUri = props.location.state.image.uri;
+  const imageBase64 = props.location.state.image.base64;
 
   const [detectedIngredients, setDetectedIngredients] = useState([]);
   const [enteredIngredients, setEnteredIngredients] = useState([]);
@@ -49,7 +49,7 @@ function IngredientList(props) {
           newPredictions.outputs[0].data.concepts.map((a) => a.name)
         );
       } catch (error) {
-        console.log("Exception Error: ", error);
+        console.log('Exception Error: ', error);
       }
     })();
   }, []);
@@ -124,9 +124,7 @@ function IngredientList(props) {
             <Button
               bordered
               onPress={() => {
-                history.push({
-                  pathname: "/recipes-list",
-                  image: { uri: imageUri, base64: imageBase64 },
+                history.push('/recipes-list', {
                   ingredients: enteredIngredients.concat(detectedIngredients),
                 });
               }}
@@ -141,17 +139,14 @@ function IngredientList(props) {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    // flex: 1,
-  },
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addIcon: {
     fontSize: 28,
-    color: "green",
+    color: 'green',
     lineHeight: 28,
     marginRight: 8,
   },
