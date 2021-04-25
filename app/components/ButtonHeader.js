@@ -7,7 +7,7 @@ function ButtonHeader(props) {
   return (
     <Header>
       <Left>
-        <Button transparent onPress={() => history.push("/")}>
+        <Button transparent onPress={() => history.goBack()}>
           <Icon name="arrow-back" />
         </Button>
       </Left>
