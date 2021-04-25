@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Icon, Left, ListItem, Right, Text } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Icon, Left, ListItem, Right, Text } from 'native-base';
 
 function IngredientListItem(props) {
-  const { history, ingredientsArray, setter } = props;
+  const { ingredientsArray, setter } = props;
 
   return ingredientsArray.map((ingredient, i) => {
     return (
@@ -33,7 +33,7 @@ function IngredientListItem(props) {
 const styles = StyleSheet.create({
   removeIcon: {
     fontSize: 24,
-    color: "red",
+    color: 'red',
     lineHeight: 24,
   },
 });

@@ -80,7 +80,6 @@ function IngredientList(props) {
           </ListItem>
           {detectedIngredients.length > 0 ? (
             <IngredientListItem
-              history={history}
               ingredientsArray={detectedIngredients}
               setter={setDetectedIngredients}
             />
@@ -95,7 +94,6 @@ function IngredientList(props) {
             <Text>Ingredients Added</Text>
           </ListItem>
           <IngredientListItem
-            history={history}
             ingredientsArray={enteredIngredients}
             setter={setEnteredIngredients}
           />

@@ -1,23 +1,31 @@
-import React from "react";
-import { Container, Content } from "native-base";
+import React, { useState, useEffect } from 'react';
+import { Container, Content, Text } from 'native-base';
 
-import { ButtonHeader } from "../components/Components";
-import getRecipesByQuery from "../api/edamam";
+import { ButtonHeader, RecipeCards } from '../components/Components';
+import getRecipesByQuery from '../api/edamam';
 
 function RecipesList(props) {
   const { history } = props;
+  const [recipeHits, setRecipeHits] = useState(null);
   const ingredients = props.location.state.ingredients;
 
-  console.log(ingredients);
-  const query = ingredients.join(",");
-  console.log(query);
-  let result = getRecipesByQuery(ingredients.join(", "));
-  console.log(result);
+  useEffect(() => {
+    (async () => {
+      const query = ingredients.join(', ');
+      setRecipeHits(await getRecipesByQuery(query));
+    })();
+  }, []);
 
   return (
     <Container>
       <ButtonHeader title="Recipes" history={history}></ButtonHeader>
-      <Content></Content>
+      <Content>
+        {recipeHits ? (
+          <RecipeCards recipes={recipeHits} />
+        ) : (
+          <Text>Loading...</Text>
+        )}
+      </Content>
     </Container>
   );
 }
