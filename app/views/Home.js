@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import {
   Body,
   Button,
@@ -11,9 +11,9 @@ import {
   H3,
   Title,
   View,
-} from "native-base";
+} from 'native-base';
 
-import { CameraButton } from "../components/Components";
+import { CameraButton } from '../components/Components';
 
 function Home(props) {
   const { history } = props;
@@ -53,9 +53,9 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    marginTop: Platform.OS === "ios" ? -64 : -56,
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: Platform.OS === 'ios' ? -64 : -56,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   fridgeIcon: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 28,
-    textAlign: "center",
+    textAlign: 'center',
   },
   cameraButton: {},
 });

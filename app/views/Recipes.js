@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Image } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Image } from 'react-native';
 import {
   Body,
   Button,
@@ -11,10 +11,13 @@ import {
   H3,
   Title,
   View,
-} from "native-base";
-import * as Clarifai from "clarifai";
+} from 'native-base';
+import * as Clarifai from 'clarifai';
 
-import { ButtonHeader } from "../components/Components";
+import { ButtonHeader } from '../components/Components';
+
+// .env variables
+import { CLARIFAI_API_KEY } from '@env';
 
 function Recipes(props) {
   const { history } = props;
@@ -35,13 +38,13 @@ function Recipes(props) {
         setPredictions(newPredictions.outputs[0].data.concepts);
         console.log(predictions);
       } catch (error) {
-        console.log("Exception Error: ", error);
+        console.log('Exception Error: ', error);
       }
     })();
   }, []);
 
   const clarifaiApp = new Clarifai.App({
-    apiKey: "98c207d37c92446c8187dcfa9f60ce98",
+    apiKey: CLARIFAI_API_KEY,
   });
   process.nextTick = setImmediate; // You'll most likely encounter the error process.nextTick is not a function while using this library with React Native. To solve this, add process.nextTick = setImmediate; as close to the top of your entrypoint as you can. See #20 for more info.
 
