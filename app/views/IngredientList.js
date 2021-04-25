@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 import {
-  Body,
   Button,
   Container,
   Content,
@@ -9,36 +8,60 @@ import {
   Icon,
   Input,
   Item,
+  Left,
   List,
   ListItem,
+  Right,
   Text,
-} from 'native-base';
+} from "native-base";
+import * as Clarifai from "clarifai";
 
-import { ButtonHeader, IngredientListItem } from '../components/Components';
+import { ButtonHeader, IngredientListItem } from "../components/Components";
 
 function IngredientList(props) {
   const { history } = props;
+  const imageUri = history.location.state.image.uri;
+  const imageBase64 = history.location.state.image.base64;
 
+  // const [predictions, setPredictions] = useState(null);
   const [detectedIngredients, setDetectedIngredients] = useState([]);
   const [enteredIngredients, setEnteredIngredients] = useState([]);
 
+  process.nextTick = setImmediate; // You'll most likely encounter the error process.nextTick is not a function while using this library with React Native. To solve this, add process.nextTick = setImmediate; as close to the top of your entrypoint as you can. See #20 for more info.
+
   useEffect(() => {
     (async () => {
-      setDetectedIngredients(['apple', 'pear', 'melon']);
-      setEnteredIngredients(['olive']);
+      try {
+        console.log(imageBase64);
+        const clarifaiApp = new Clarifai.App({
+          apiKey: "98c207d37c92446c8187dcfa9f60ce98",
+        });
+
+        const newPredictions = await clarifaiApp.models.predict(
+          { id: Clarifai.FOOD_MODEL },
+          { base64: imageBase64 },
+          { maxConcepts: 10, minValue: 0.4 } // maximum matches with over minimum theshold value
+        );
+
+        setDetectedIngredients(
+          newPredictions.outputs[0].data.concepts.map((a) => a.name)
+        );
+      } catch (error) {
+        console.log("Exception Error: ", error);
+      }
     })();
   }, []);
 
   let ingredientInput;
 
-  function handleIngredientInput(value) {
-    ingredientInput = value === '' ? ingredientInput : value;
+  function setIngredientInput(value) {
+    ingredientInput = value === "" ? ingredientInput : value;
   }
 
   function addIngredient() {
     if (
-      enteredIngredients.indexOf(ingredientInput) === -1 &&
-      detectedIngredients.indexOf(ingredientInput) === -1
+      enteredIngredients.includes(ingredientInput) &&
+      detectedIngredients.includes(ingredientInput)
     ) {
       setEnteredIngredients(enteredIngredients.concat(ingredientInput));
     }
@@ -47,19 +70,26 @@ function IngredientList(props) {
   return (
     <Container>
       <ButtonHeader title="Ingredients" history={history}></ButtonHeader>
-      <Content>
+      <Content contentContainerStyle={styles.content}>
         <List>
           {/* Render detected ingredients */}
-          <ListItem itemHeader first style={styles.itemHeader}>
+          <ListItem itemDivider first style={styles.itemDivider}>
             <Text>Ingredients Detected</Text>
           </ListItem>
-          <IngredientListItem
-            history={history}
-            ingredientsArray={detectedIngredients}
-            setter={setDetectedIngredients}
-          />
+          {detectedIngredients ? (
+            <IngredientListItem
+              history={history}
+              ingredientsArray={detectedIngredients}
+              setter={setDetectedIngredients}
+            />
+          ) : (
+            <ListItem>
+              <Text>Loading...</Text>
+            </ListItem>
+          )}
+
           {/* Render user entered ingredients */}
-          <ListItem itemHeader first style={styles.itemHeader}>
+          <ListItem itemDivider first style={styles.itemDivider}>
             <Text>Ingredients Added</Text>
           </ListItem>
           <IngredientListItem
@@ -69,10 +99,12 @@ function IngredientList(props) {
           />
           <Form>
             <Item>
-              <Input
-                placeholder="Ingredient to add..."
-                onChangeText={(val) => handleIngredientInput(val)}
-              />
+              <Left>
+                <Input
+                  placeholder="Add additional ingredient..."
+                  onChangeText={(val) => setIngredientInput(val)}
+                />
+              </Left>
               <Icon
                 type="Entypo"
                 name="circle-with-plus"
@@ -85,10 +117,12 @@ function IngredientList(props) {
           </Form>
         </List>
 
-        <View style={styles.contentView}>
-          <Button>
-            <Text>Submit</Text>
-          </Button>
+        <View style={styles.buttonContainer}>
+          <Right>
+            <Button bordered>
+              <Text>CONTINUE</Text>
+            </Button>
+          </Right>
         </View>
       </Content>
     </Container>
@@ -96,23 +130,24 @@ function IngredientList(props) {
 }
 
 const styles = StyleSheet.create({
+  content: {
+    // flex: 1,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   addIcon: {
-    color: 'green',
+    fontSize: 28,
+    color: "green",
+    lineHeight: 28,
+    marginRight: 8,
   },
-  contentView: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonContainer: {
+    margin: 18,
   },
-  editIngredientIcon: {
-    marginRight: 10,
-    fontSize: 20,
-    lineHeight: 20,
-    color: 'green',
-  },
-  itemHeader: {
-    marginTop: 10,
-    paddingBottom: 0,
-  },
+  itemDivider: {},
 });
 
 export default IngredientList;
