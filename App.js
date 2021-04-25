@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container } from "native-base";
+import { Root, Container } from "native-base";
 import { NativeRouter, Switch, Route } from "react-router-native";
 import { default as AppLoading } from "expo-app-loading";
 import * as Font from "expo-font";
@@ -29,15 +29,17 @@ export default class App extends Component {
       return <AppLoading onError={console.warn} />;
     }
     return (
-      <NativeRouter>
-        <Container>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/ingredient-list" component={IngredientList} />
-            <Route exact path="/recipes-list" component={RecipesList} />
-          </Switch>
-        </Container>
-      </NativeRouter>
+      <Root>
+        <NativeRouter>
+          <Container>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/ingredient-list" component={IngredientList} />
+              <Route exact path="/recipes-list" component={RecipesList} />
+            </Switch>
+          </Container>
+        </NativeRouter>
+      </Root>
     );
   }
 }

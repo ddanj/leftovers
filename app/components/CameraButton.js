@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Icon, View } from 'native-base';
-import * as ImagePicker from 'expo-image-picker';
-import * as ImageManipulator from 'expo-image-manipulator';
+import React, { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
+import { Button, Icon, View } from "native-base";
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 function CameraButton(props) {
-  const { history } = props;
+  const { history, callback } = props;
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
+      if (Platform.OS !== "web") {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
         }
       }
     })();
@@ -35,15 +35,18 @@ function CameraButton(props) {
         }
       );
 
-      history.push('/ingredient-list', {
-        image: { uri: result.uri, base64: manipulatedResult.base64 },
-      });
+      callback(result.uri, manipulatedResult.base64);
     }
   };
 
   return (
     <View>
-      <Button rounded style={styles.cameraButton} onPress={takePicture}>
+      <Button
+        bordered
+        rounded
+        style={styles.cameraButton}
+        onPress={takePicture}
+      >
         <Icon type="Entypo" name="camera" />
       </Button>
     </View>
