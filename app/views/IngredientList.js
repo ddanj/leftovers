@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
+
 import {
   Button,
   Container,
@@ -13,19 +14,19 @@ import {
   ListItem,
   Right,
   Text,
-} from 'native-base';
-import * as Clarifai from 'clarifai';
+  View,
+} from "native-base";
+import * as Clarifai from "clarifai";
 
 // My imports
-import { CLARIFAI_API_KEY } from '@env';
-import { ButtonHeader, IngredientListItem } from '../components/Components';
+import { CLARIFAI_API_KEY } from "@env";
+import { ButtonHeader, IngredientListItem } from "../components/Components";
 
 function IngredientList(props) {
   const { history } = props;
   const imageUri = history.location.state.image.uri;
   const imageBase64 = history.location.state.image.base64;
 
-  // const [predictions, setPredictions] = useState(null);
   const [detectedIngredients, setDetectedIngredients] = useState([]);
   const [enteredIngredients, setEnteredIngredients] = useState([]);
 
@@ -48,7 +49,7 @@ function IngredientList(props) {
           newPredictions.outputs[0].data.concepts.map((a) => a.name)
         );
       } catch (error) {
-        console.log('Exception Error: ', error);
+        console.log("Exception Error: ", error);
       }
     })();
   }, []);
@@ -120,7 +121,16 @@ function IngredientList(props) {
 
         <View style={styles.buttonContainer}>
           <Right>
-            <Button bordered>
+            <Button
+              bordered
+              onPress={() => {
+                history.push({
+                  pathname: "/recipes-list",
+                  image: { uri: imageUri, base64: imageBase64 },
+                  ingredients: enteredIngredients.concat(detectedIngredients),
+                });
+              }}
+            >
               <Text>CONTINUE</Text>
             </Button>
           </Right>
@@ -136,12 +146,12 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   addIcon: {
     fontSize: 28,
-    color: 'green',
+    color: "green",
     lineHeight: 28,
     marginRight: 8,
   },

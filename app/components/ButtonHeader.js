@@ -2,7 +2,7 @@ import React from "react";
 import { Body, Button, Header, Icon, Title, Left, Right } from "native-base";
 
 function ButtonHeader(props) {
-  const { history, title } = props;
+  const { history, title, path } = props;
 
   return (
     <Header>

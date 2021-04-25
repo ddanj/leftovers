@@ -35,9 +35,8 @@ function CameraButton(props) {
         }
       );
 
-      history.push({
-        pathname: "/ingredient-list",
-        state: { image: { uri: result.uri, base64: manipulatedResult.base64 } },
+      history.push("/ingredient-list", {
+        image: { uri: result.uri, base64: manipulatedResult.base64 },
       });
     }
   };
