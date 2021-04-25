@@ -15,6 +15,7 @@ import {
   Text,
 } from "native-base";
 import * as Clarifai from "clarifai";
+import { CLARIFAI_API_KEY } from "@env";
 
 import { ButtonHeader, IngredientListItem } from "../components/Components";
 
@@ -32,9 +33,8 @@ function IngredientList(props) {
   useEffect(() => {
     (async () => {
       try {
-        console.log(imageBase64);
         const clarifaiApp = new Clarifai.App({
-          apiKey: "98c207d37c92446c8187dcfa9f60ce98",
+          apiKey: CLARIFAI_API_KEY,
         });
 
         const newPredictions = await clarifaiApp.models.predict(
