@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
 
 import {
   Body,
@@ -17,16 +17,16 @@ import {
   Text,
   Toast,
   View,
-} from 'native-base';
-import * as Clarifai from 'clarifai';
+} from "native-base";
+import * as Clarifai from "clarifai";
 
 // My imports
-import { CLARIFAI_API_KEY } from '@env';
+import { CLARIFAI_API_KEY } from "@env";
 import {
   ButtonHeader,
   CameraButton,
   IngredientListItem,
-} from '../components/Components';
+} from "../components/Components";
 
 function IngredientList(props) {
   const { history } = props;
@@ -55,20 +55,21 @@ function IngredientList(props) {
         const newPredictions = await clarifaiApp.models.predict(
           { id: Clarifai.FOOD_MODEL },
           { base64: imageBase64 },
-          { maxConcepts: 5, minValue: 0.4 } // maximum matches with over minimum theshold value
+          { maxConcepts: 3, minValue: 0.4 } // maximum matches with over minimum theshold value
         );
 
-        setDetectedIngredients(
-          removeDuplicates(
-            detectedIngredients.concat(
-              newPredictions.outputs[0].data.concepts.map((a) => a.name)
+        newPredictions &&
+          setDetectedIngredients(
+            removeDuplicates(
+              detectedIngredients.concat(
+                newPredictions.outputs[0].data.concepts.map((a) => a.name)
+              )
             )
-          )
-        );
+          );
 
         setLoaded(true);
       } catch (error) {
-        console.log('Exception Error: ', error);
+        console.log("Exception Error: ", error);
       }
     })();
   }
@@ -102,8 +103,8 @@ function IngredientList(props) {
   function addIngredient() {
     includesIngredient(ingredientInput)
       ? Toast.show({
-          text: 'Ingredient already in list!',
-          buttonText: 'Okay',
+          text: "Ingredient already in list!",
+          buttonText: "Okay",
         })
       : setEnteredIngredients(enteredIngredients.concat(ingredientInput));
   }
@@ -161,7 +162,7 @@ function IngredientList(props) {
             <CameraButton
               history={history}
               callback={(uri, base64) => {
-                history.push('/ingredient-list', {
+                history.push("/ingredient-list", {
                   image: { uri: uri, base64: base64 },
                 });
                 detectFood();
@@ -176,17 +177,17 @@ function IngredientList(props) {
               onPress={() => {
                 ingredientsEmpty()
                   ? Toast.show({
-                      text: 'Empty list of ingredients!',
-                      buttonText: 'Okay',
+                      text: "Empty list of ingredients!",
+                      buttonText: "Okay",
                     })
-                  : history.push('/recipes-list', {
+                  : history.push("/recipes-list", {
                       ingredients: enteredIngredients.concat(
                         detectedIngredients
                       ),
                     });
               }}
             >
-              <Text>CONTINUE</Text>
+              <Text>GO</Text>
             </Button>
           </Right>
         </View>
@@ -201,13 +202,13 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     fontSize: 28,
-    color: 'green',
+    color: "green",
     lineHeight: 28,
     marginRight: 8,
   },
   buttonContainer: {
     margin: 18,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   itemDivider: {},
 });

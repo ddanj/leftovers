@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   description: {
-    fontSize: 28,
+    fontSize: 24,
     textAlign: "center",
   },
 });
