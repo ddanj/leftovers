@@ -46,7 +46,6 @@ function IngredientList(props) {
   function detectFood() {
     (async () => {
       try {
-        console.log(imageBase64);
         setLoaded(false);
 
         const clarifaiApp = new Clarifai.App({
@@ -59,8 +58,6 @@ function IngredientList(props) {
           { maxConcepts: 5, minValue: 0.4 } // maximum matches with over minimum theshold value
         );
 
-        console.log(newPredictions.outputs[0].data.concepts);
-
         setDetectedIngredients(
           removeDuplicates(
             detectedIngredients.concat(
@@ -70,8 +67,6 @@ function IngredientList(props) {
         );
 
         setLoaded(true);
-
-        console.log(detectedIngredients);
       } catch (error) {
         console.log('Exception Error: ', error);
       }

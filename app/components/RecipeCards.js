@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { Card, CardItem, Left, Right, Text, Body } from 'native-base';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Body, Card, CardItem, Left, Text, View } from 'native-base';
 import AutoHeightImage from 'react-native-auto-height-image';
 
 // My Imports
@@ -8,33 +8,44 @@ import Hyperlink from './Hyperlink';
 
 export default function RecipeCards(props) {
   const { recipes } = props;
-  //   console.log('\n\n\n\n\n\n\n\n\n');
-  //   console.log(recipes[0]['recipe']);
 
   return recipes.map((recipe, i) => {
     return (
       <Card key={i}>
         <CardItem header>
           <Left>
-            <Text>{recipe['recipe']['label']}</Text>
-          </Left>
-          <Right>
             <AutoHeightImage
               width={125}
               source={{ uri: recipe['recipe']['image'] }}
               style={styles.image}
             ></AutoHeightImage>
-          </Right>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <Text>//Your text here</Text>
+          </Left>
+          <Body style={styles.titleContainer}>
+            <Text style={styles.title}>{recipe['recipe']['label']}</Text>
+            <Hyperlink
+              to={recipe['recipe']['url']}
+              underline
+              style={styles.title}
+            >
+              {recipe['recipe']['source']}
+            </Hyperlink>
           </Body>
         </CardItem>
-        <CardItem footer>
-          <Hyperlink to={recipe['recipe']['url']} underline>
-            {recipe['recipe']['source']}
-          </Hyperlink>
+        <CardItem style={styles.contentContainer}>
+          <View>
+            {recipe['recipe']['dishType'] ? (
+              <Text>
+                {' '}
+                {'Dish Type: ' + recipe['recipe']['dishType'].join(' ')}
+              </Text>
+            ) : null}
+            {recipe['recipe']['calories'] ? (
+              <Text>
+                {' '}
+                {'Calories: ' + Math.floor(recipe['recipe']['calories'])}
+              </Text>
+            ) : null}
+          </View>
         </CardItem>
       </Card>
     );
@@ -44,5 +55,8 @@ export default function RecipeCards(props) {
 const styles = StyleSheet.create({
   image: {
     resizeMode: 'cover',
+  },
+  titleContainer: {
+    justifyContent: 'center',
   },
 });

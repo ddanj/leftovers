@@ -3,11 +3,12 @@ import { Linking, StyleSheet } from 'react-native';
 import { Text } from 'native-base';
 
 function Hyperlink(props) {
-  const { underline, to } = props;
+  const { to, underline, style } = props;
   return (
     <Text
       style={[
         styles.link,
+        style,
         { textDecorationLine: underline ? 'underline' : 'none' },
       ]}
       onPress={() => Linking.openURL(to)}
